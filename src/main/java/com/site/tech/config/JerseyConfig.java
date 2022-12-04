@@ -1,6 +1,6 @@
 package com.site.tech.config;
 
-import com.site.tech.endpoint.UserService;
+import com.site.tech.endpoint.UserEndpoint;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.springframework.context.annotation.Configuration;
 
@@ -8,6 +8,6 @@ import org.springframework.context.annotation.Configuration;
 public class JerseyConfig extends ResourceConfig {
 
     public JerseyConfig() {
-        register(UserService.class);
+        register(UserEndpoint.class);
     }
 }
