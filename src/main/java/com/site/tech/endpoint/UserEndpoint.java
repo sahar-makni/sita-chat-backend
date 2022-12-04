@@ -29,9 +29,8 @@ public class UserEndpoint {
     @Consumes("application/json")
     @Produces("application/json")
     public Response addUser(@Valid @RequestBody UserRequestWrapper userRequestWrapper) {
-        System.out.println(userRequestWrapper);
-        User adduser = userService.adduser(userRequestWrapper);
-        UserResponseWrapper userResponseWrapper = UserMapper.INSTANCE.entityToResponse(adduser);
+        User user = userService.createUser(userRequestWrapper);
+        UserResponseWrapper userResponseWrapper = UserMapper.INSTANCE.entityToResponse(user);
         return Response.status(Response.Status.CREATED).entity(userResponseWrapper).build();
     }
 }

@@ -16,11 +16,9 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public User adduser(UserRequestWrapper userRequestWrapper) {
+    public User createUser(UserRequestWrapper userRequestWrapper) {
         User user = UserMapper.INSTANCE.requestToEntity(userRequestWrapper);
-        System.out.println(user);
         String hashedPassword = BCrypt.withDefaults().hashToString(10, user.getPassword().toCharArray());
-        System.out.println(hashedPassword);
         user.setPassword(hashedPassword);
         return userRepository.save(user);
     }
