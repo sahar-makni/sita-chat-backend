@@ -1,6 +1,7 @@
 package com.site.tech.config;
 
-import com.site.tech.endpoint.UserEndpoint;
+import com.site.tech.endpoint.SignInEndpoint;
+import com.site.tech.endpoint.UserRessource;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.springframework.context.annotation.Configuration;
 
@@ -8,6 +9,8 @@ import org.springframework.context.annotation.Configuration;
 public class JerseyConfig extends ResourceConfig {
 
     public JerseyConfig() {
-        register(UserEndpoint.class);
+        register(SignInEndpoint.class);
+        register(UserRessource.class);
+        // TODO: add exception handler register
     }
 }

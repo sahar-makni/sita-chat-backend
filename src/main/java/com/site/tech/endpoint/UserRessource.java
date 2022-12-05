@@ -9,19 +9,16 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.validation.Valid;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 
 @Service
 @Path("/users")
-public class UserEndpoint {
+public class UserRessource {
 
     private final UserService userService;
 
-    public UserEndpoint(UserService userService) {
+    public UserRessource(UserService userService) {
         this.userService = userService;
     }
 
@@ -33,4 +30,18 @@ public class UserEndpoint {
         UserResponseWrapper userResponseWrapper = UserMapper.INSTANCE.entityToResponse(user);
         return Response.status(Response.Status.CREATED).entity(userResponseWrapper).build();
     }
+
+    @GET
+    @Path(("/{id}"))
+    @Consumes("application/json")
+    @Produces("application/json")
+    public Response getUserById(@PathParam("id") Long id) {
+       User user = userService.getUserById(id);
+
+        UserResponseWrapper userWrapper = UserMapper.INSTANCE.entityToResponse(user);
+
+        return Response.status(Response.Status.OK).entity(userWrapper).build();
+    }
+
+
 }
