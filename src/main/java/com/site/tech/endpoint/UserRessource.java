@@ -3,6 +3,7 @@ package com.site.tech.endpoint;
 import com.site.tech.entity.User;
 import com.site.tech.mapper.UserMapper;
 import com.site.tech.service.UserService;
+import com.site.tech.wrapper.request.PatchUserRequest;
 import com.site.tech.wrapper.request.UserRequest;
 import com.site.tech.wrapper.response.UserResponse;
 import org.springframework.stereotype.Service;
@@ -37,6 +38,18 @@ public class UserRessource {
     @Produces("application/json")
     public Response getUserById(@PathParam("id") Long id) {
        User user = userService.getUserById(id);
+
+        UserResponse userWrapper = UserMapper.INSTANCE.entityToResponse(user);
+
+        return Response.status(Response.Status.OK).entity(userWrapper).build();
+    }
+
+    @PATCH
+    @Path(("/{id}"))
+    @Consumes("application/json")
+    @Produces("application/json")
+    public Response patchUserById(@PathParam("id") Long id, @Valid @RequestBody PatchUserRequest patchUserRequest) {
+        User user = userService.patchUserById(id, patchUserRequest);
 
         UserResponse userWrapper = UserMapper.INSTANCE.entityToResponse(user);
 

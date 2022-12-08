@@ -6,8 +6,10 @@ import com.site.tech.enumeration.LanguageCode;
 import com.site.tech.enumeration.ThemeCode;
 import com.site.tech.mapper.UserMapper;
 import com.site.tech.repository.UserRepository;
+import com.site.tech.wrapper.request.PatchUserRequest;
 import com.site.tech.wrapper.request.SignInRequest;
 import com.site.tech.wrapper.request.UserRequest;
+import io.micrometer.core.instrument.util.StringUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -45,5 +47,25 @@ public class UserService {
 
     public User getUserById(Long id) {
         return userRepository.findById(id).orElseThrow(() -> new RuntimeException("404 NOT FOUND: User Not Found :'("));
+    }
+
+    public User patchUserById(Long id, PatchUserRequest patchUserRequest) {
+        User user = getUserById(id);
+        if (StringUtils.isNotBlank(patchUserRequest.getEmail())) {
+            user.setEmail(patchUserRequest.getEmail());
+        }
+        if (patchUserRequest.getLanguage() != null) {
+            user.setLanguage(patchUserRequest.getLanguage());
+        }
+        if (patchUserRequest.getTheme() != null) {
+            user.setTheme(patchUserRequest.getTheme());
+        }
+        if (patchUserRequest.getRoomsCount() != null) {
+            user.setRoomsCount(patchUserRequest.getRoomsCount());
+        }
+        if (patchUserRequest.getMessagesCount() != null) {
+            user.setMessagesCount(patchUserRequest.getMessagesCount());
+        }
+        return userRepository.save(user);
     }
 }
