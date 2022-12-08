@@ -18,6 +18,7 @@ public interface UserMapper {
     UserResponseWrapper entityToResponse(User user);
 
 
+
     // FIXME : this is not a good idea to use the id as access token alternative.
     //   will try to improve it later if there is time (hopefully)
     @Mapping(source = "id", target = "accessToken")

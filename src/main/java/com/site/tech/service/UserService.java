@@ -2,6 +2,8 @@ package com.site.tech.service;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
 import com.site.tech.entity.User;
+import com.site.tech.enumeration.LanguageCode;
+import com.site.tech.enumeration.ThemeCode;
 import com.site.tech.mapper.UserMapper;
 import com.site.tech.repository.UserRepository;
 import com.site.tech.wrapper.request.SignInRequest;
@@ -23,6 +25,10 @@ public class UserService {
         User user = UserMapper.INSTANCE.requestToEntity(userRequestWrapper);
         String hashedPassword = BCrypt.withDefaults().hashToString(10, user.getPassword().toCharArray());
         user.setPassword(hashedPassword);
+        // set default theme and language
+        user.setLanguage(LanguageCode.EN);
+        user.setTheme(ThemeCode.ARYA_BLUE);
+        System.out.println(user);
         return userRepository.save(user);
     }
 
