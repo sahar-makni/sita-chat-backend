@@ -3,6 +3,7 @@ package com.site.tech.endpoint;
 import com.site.tech.entity.User;
 import com.site.tech.mapper.UserMapper;
 import com.site.tech.service.UserService;
+import com.site.tech.wrapper.request.ChangePasswordRequest;
 import com.site.tech.wrapper.request.PatchUserRequest;
 import com.site.tech.wrapper.request.UserRequest;
 import com.site.tech.wrapper.response.UserResponse;
@@ -37,7 +38,7 @@ public class UserRessource {
     @Consumes("application/json")
     @Produces("application/json")
     public Response getUserById(@PathParam("id") Long id) {
-       User user = userService.getUserById(id);
+        User user = userService.getUserById(id);
 
         UserResponse userWrapper = UserMapper.INSTANCE.entityToResponse(user);
 
@@ -54,6 +55,15 @@ public class UserRessource {
         UserResponse userWrapper = UserMapper.INSTANCE.entityToResponse(user);
 
         return Response.status(Response.Status.OK).entity(userWrapper).build();
+    }
+
+    @POST
+    @Path("/{id}/changePassword")
+    @Consumes("application/json")
+    @Produces("application/json")
+    public Response changePassword(@PathParam("id") Long id, @Valid @RequestBody ChangePasswordRequest changePasswordRequest) {
+        userService.changePassword(id, changePasswordRequest);
+        return Response.status(Response.Status.NO_CONTENT).build();
     }
 
 

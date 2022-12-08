@@ -6,6 +6,7 @@ import com.site.tech.enumeration.LanguageCode;
 import com.site.tech.enumeration.ThemeCode;
 import com.site.tech.mapper.UserMapper;
 import com.site.tech.repository.UserRepository;
+import com.site.tech.wrapper.request.ChangePasswordRequest;
 import com.site.tech.wrapper.request.PatchUserRequest;
 import com.site.tech.wrapper.request.SignInRequest;
 import com.site.tech.wrapper.request.UserRequest;
@@ -67,5 +68,16 @@ public class UserService {
             user.setMessagesCount(patchUserRequest.getMessagesCount());
         }
         return userRepository.save(user);
+    }
+
+    public void changePassword(Long userId, ChangePasswordRequest changePasswordRequest) {
+        User user = getUserById(userId);
+        BCrypt.Result result = BCrypt.verifyer().verify(changePasswordRequest.getOldPassword().toCharArray(), user.getPassword().toCharArray());
+        if (!result.verified) {
+            throw new RuntimeException("400 BAD REQUEST: wrong old password");
+        }
+        String hashedPassword = BCrypt.withDefaults().hashToString(10, changePasswordRequest.getNewPassword().toCharArray());
+        user.setPassword(hashedPassword);
+        userRepository.save(user);
     }
 }
