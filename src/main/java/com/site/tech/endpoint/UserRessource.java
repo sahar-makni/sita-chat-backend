@@ -3,8 +3,8 @@ package com.site.tech.endpoint;
 import com.site.tech.entity.User;
 import com.site.tech.mapper.UserMapper;
 import com.site.tech.service.UserService;
-import com.site.tech.wrapper.request.UserRequestWrapper;
-import com.site.tech.wrapper.response.UserResponseWrapper;
+import com.site.tech.wrapper.request.UserRequest;
+import com.site.tech.wrapper.response.UserResponse;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -25,10 +25,10 @@ public class UserRessource {
     @POST
     @Consumes("application/json")
     @Produces("application/json")
-    public Response addUser(@Valid @RequestBody UserRequestWrapper userRequestWrapper) {
-        User user = userService.createUser(userRequestWrapper);
-        UserResponseWrapper userResponseWrapper = UserMapper.INSTANCE.entityToResponse(user);
-        return Response.status(Response.Status.CREATED).entity(userResponseWrapper).build();
+    public Response addUser(@Valid @RequestBody UserRequest userRequest) {
+        User user = userService.createUser(userRequest);
+        UserResponse userResponse = UserMapper.INSTANCE.entityToResponse(user);
+        return Response.status(Response.Status.CREATED).entity(userResponse).build();
     }
 
     @GET
@@ -38,7 +38,7 @@ public class UserRessource {
     public Response getUserById(@PathParam("id") Long id) {
        User user = userService.getUserById(id);
 
-        UserResponseWrapper userWrapper = UserMapper.INSTANCE.entityToResponse(user);
+        UserResponse userWrapper = UserMapper.INSTANCE.entityToResponse(user);
 
         return Response.status(Response.Status.OK).entity(userWrapper).build();
     }

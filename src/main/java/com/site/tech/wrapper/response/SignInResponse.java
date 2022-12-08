@@ -1,4 +1,4 @@
-package com.site.tech.wrapper.request;
+package com.site.tech.wrapper.response;
 
 public class SignInResponse {
     private String accessToken;

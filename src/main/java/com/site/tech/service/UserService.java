@@ -7,7 +7,7 @@ import com.site.tech.enumeration.ThemeCode;
 import com.site.tech.mapper.UserMapper;
 import com.site.tech.repository.UserRepository;
 import com.site.tech.wrapper.request.SignInRequest;
-import com.site.tech.wrapper.request.UserRequestWrapper;
+import com.site.tech.wrapper.request.UserRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -21,20 +21,21 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public User createUser(UserRequestWrapper userRequestWrapper) {
-        User user = UserMapper.INSTANCE.requestToEntity(userRequestWrapper);
+    public User createUser(UserRequest userRequest) {
+        User user = UserMapper.INSTANCE.requestToEntity(userRequest);
         String hashedPassword = BCrypt.withDefaults().hashToString(10, user.getPassword().toCharArray());
         user.setPassword(hashedPassword);
         // set default theme and language
         user.setLanguage(LanguageCode.EN);
         user.setTheme(ThemeCode.ARYA_BLUE);
-        System.out.println(user);
+        user.setMessagesCount(0);
+        user.setRoomsCount(0);
         return userRepository.save(user);
     }
 
     public User trySignIn(SignInRequest signInRequest) {
         Optional<User> optionalUser = userRepository.findByEmail(signInRequest.getEmail());
-        User user =  optionalUser.orElseThrow(()-> new RuntimeException("user not found"));
+        User user = optionalUser.orElseThrow(() -> new RuntimeException("user not found"));
         BCrypt.Result result = BCrypt.verifyer().verify(signInRequest.getPassword().toCharArray(), user.getPassword().toCharArray());
         if (!result.verified) {
             throw new RuntimeException("user or password are incorrect");
@@ -43,6 +44,6 @@ public class UserService {
     }
 
     public User getUserById(Long id) {
-        return userRepository.findById(id).orElseThrow(()->  new RuntimeException("404 NOT FOUND: User Not Found :'("));
+        return userRepository.findById(id).orElseThrow(() -> new RuntimeException("404 NOT FOUND: User Not Found :'("));
     }
 }

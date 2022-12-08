@@ -2,9 +2,9 @@ package com.site.tech.mapper;
 
 
 import com.site.tech.entity.User;
-import com.site.tech.wrapper.request.SignInResponse;
-import com.site.tech.wrapper.request.UserRequestWrapper;
-import com.site.tech.wrapper.response.UserResponseWrapper;
+import com.site.tech.wrapper.response.SignInResponse;
+import com.site.tech.wrapper.request.UserRequest;
+import com.site.tech.wrapper.response.UserResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
@@ -13,9 +13,9 @@ import org.mapstruct.factory.Mappers;
 public interface UserMapper {
     UserMapper INSTANCE = Mappers.getMapper(UserMapper.class);
 
-    User requestToEntity(UserRequestWrapper dto);
+    User requestToEntity(UserRequest dto);
 
-    UserResponseWrapper entityToResponse(User user);
+    UserResponse entityToResponse(User user);
 
 
 

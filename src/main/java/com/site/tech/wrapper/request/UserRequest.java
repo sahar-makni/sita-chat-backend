@@ -4,7 +4,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
-public class UserRequestWrapper {
+public class UserRequest {
     @NotNull
     @NotEmpty
     @Email
@@ -13,10 +13,10 @@ public class UserRequestWrapper {
     @NotEmpty
     private String password;
 
-    public UserRequestWrapper() {
+    public UserRequest() {
     }
 
-    public UserRequestWrapper(String email, String password) {
+    public UserRequest(String email, String password) {
         this.email = email;
         this.password = password;
     }
