@@ -15,13 +15,17 @@ public class Room {
     @JoinTable(name = "room_users", joinColumns = @JoinColumn(name = "room_id"), inverseJoinColumns = @JoinColumn(name = "user_id"))
     private List<User> users;
 
+    @OneToMany(mappedBy = "room")
+    private List<Message> roomMessages;
+
     public Room() {
     }
 
-    public Room(Long id, String name, List<User> users) {
+    public Room(Long id, String name, List<User> users, List<Message> roomMessages) {
         this.id = id;
         this.name = name;
         this.users = users;
+        this.roomMessages = roomMessages;
     }
 
     public Long getId() {
@@ -46,5 +50,13 @@ public class Room {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public List<Message> getRoomMessages() {
+        return roomMessages;
+    }
+
+    public void setRoomMessages(List<Message> roomMessages) {
+        this.roomMessages = roomMessages;
     }
 }

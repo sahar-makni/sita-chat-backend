@@ -22,4 +22,10 @@ public class RoomService {
         User user = userService.getUserById(userId);
         return roomRepository.findAllByUsersContains(user);
     }
+
+    public Room getRoomById(Long roomId) {
+        return roomRepository.findById(roomId).orElseThrow(()-> new RuntimeException("404 NOT FOUND - Room not found"));
+
+
+    }
 }

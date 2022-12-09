@@ -20,6 +20,9 @@ public class User {
     private Integer messagesCount;
     private Integer roomsCount;
 
+    @OneToMany(mappedBy = "sender")
+    private List<Message> roomMessages;
+
     @ManyToMany(mappedBy = "users")
     private List<Room> rooms;
 
@@ -115,5 +118,13 @@ public class User {
                 ", roomsCount=" + roomsCount +
                 ", rooms=" + rooms +
                 '}';
+    }
+
+    public List<Message> getRoomMessages() {
+        return roomMessages;
+    }
+
+    public void setRoomMessages(List<Message> roomMessages) {
+        this.roomMessages = roomMessages;
     }
 }
