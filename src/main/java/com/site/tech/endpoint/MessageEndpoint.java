@@ -2,6 +2,7 @@ package com.site.tech.endpoint;
 
 import com.site.tech.entity.Message;
 import com.site.tech.mapper.MessageMapper;
+import com.site.tech.service.AuthService;
 import com.site.tech.service.MessageService;
 import com.site.tech.wrapper.request.AppendMessageRequest;
 import com.site.tech.wrapper.response.MessageResponse;
@@ -19,9 +20,10 @@ import java.util.List;
 public class MessageEndpoint {
 
     private final MessageService messageService;
-
-    public MessageEndpoint(MessageService messageService) {
+    private final AuthService authService;
+    public MessageEndpoint(MessageService messageService, AuthService authService) {
         this.messageService = messageService;
+        this.authService = authService;
     }
 
     @GET
@@ -31,7 +33,7 @@ public class MessageEndpoint {
             @HeaderParam("access-token") String accessToken,
             @PathParam("roomId") Long roomId) {
         // TODO : Paginate this WS
-        Long userId = getUserIdFromAccessToken(accessToken);
+        Long userId = authService.getUserIdFromAccessToken(accessToken);
         List<Message> messages = messageService.getRoomMessages(userId, roomId);
         List<MessageResponse> messageResponses = MessageMapper.INSTANCE.entityToResponse(messages);
         return Response.status(Response.Status.OK).entity(messageResponses).build();
@@ -45,14 +47,9 @@ public class MessageEndpoint {
             @PathParam("roomId") Long roomId,
             @Valid @RequestBody AppendMessageRequest appendMessageRequest
     ){
-        Long userId = getUserIdFromAccessToken(accessToken);
+        Long userId = authService.getUserIdFromAccessToken(accessToken);
         messageService.appendMessage(userId, roomId, appendMessageRequest);
         return Response.status(Response.Status.CREATED).build();
     }
 
-    private Long getUserIdFromAccessToken(String accessToken) {
-        // since the access token is the user ID (du to time limitation, I was not able to implement the
-        // oAuth2 protocol
-        return Long.parseLong(accessToken);
-    }
 }
