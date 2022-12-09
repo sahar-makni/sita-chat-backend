@@ -17,6 +17,10 @@ public interface UserMapper {
 
     UserResponse entityToResponse(User user);
 
+    default Long entityToId(User user) {
+        return user.getId();
+    }
+
 
 
     // FIXME : this is not a good idea to use the id as access token alternative.

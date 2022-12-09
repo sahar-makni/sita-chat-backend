@@ -4,6 +4,7 @@ import com.site.tech.enumeration.LanguageCode;
 import com.site.tech.enumeration.ThemeCode;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity(name = "user")
 public class User {
@@ -19,12 +20,15 @@ public class User {
     private Integer messagesCount;
     private Integer roomsCount;
 
+    @ManyToMany(mappedBy = "users")
+    private List<Room> rooms;
+
 
     public User() {
     }
 
 
-    public User(Long id, String email, String password, LanguageCode language, ThemeCode theme, Integer messagesCount, Integer roomsCount) {
+    public User(Long id, String email, String password, LanguageCode language, ThemeCode theme, Integer messagesCount, Integer roomsCount, List<Room> rooms) {
         this.id = id;
         this.email = email;
         this.password = password;
@@ -32,6 +36,7 @@ public class User {
         this.theme = theme;
         this.messagesCount = messagesCount;
         this.roomsCount = roomsCount;
+        this.rooms = rooms;
     }
 
     public Long getId() {
@@ -90,12 +95,25 @@ public class User {
         this.roomsCount = roomsCount;
     }
 
+    public List<Room> getRooms() {
+        return rooms;
+    }
+
+    public void setRooms(List<Room> rooms) {
+        this.rooms = rooms;
+    }
+
     @Override
     public String toString() {
         return "User{" +
                 "id=" + id +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
+                ", language=" + language +
+                ", theme=" + theme +
+                ", messagesCount=" + messagesCount +
+                ", roomsCount=" + roomsCount +
+                ", rooms=" + rooms +
                 '}';
     }
 }

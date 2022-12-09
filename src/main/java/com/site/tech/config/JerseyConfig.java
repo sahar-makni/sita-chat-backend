@@ -1,5 +1,7 @@
 package com.site.tech.config;
 
+import com.site.tech.endpoint.MessageEndpoint;
+import com.site.tech.endpoint.RoomEndpoint;
 import com.site.tech.endpoint.SignInEndpoint;
 import com.site.tech.endpoint.UserRessource;
 import com.site.tech.filter.CORSFilter;
@@ -12,6 +14,8 @@ public class JerseyConfig extends ResourceConfig {
     public JerseyConfig() {
         register(SignInEndpoint.class);
         register(UserRessource.class);
+        register(RoomEndpoint.class);
+        register(MessageEndpoint.class);
         register(CORSFilter.class);
         // TODO: add exception handler register
     }
