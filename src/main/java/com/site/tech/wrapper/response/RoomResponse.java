@@ -1,5 +1,6 @@
 package com.site.tech.wrapper.response;
 
+import java.util.Date;
 import java.util.List;
 
 public class RoomResponse {
@@ -8,14 +9,16 @@ public class RoomResponse {
     private String name;
 
     private List<Long> userIds;
+    private Date lastMessageTime;
 
     public RoomResponse() {
     }
 
-    public RoomResponse(Long id, String name, List<Long> userIds) {
+    public RoomResponse(Long id, String name, List<Long> userIds, Date lastMessageTime) {
         this.id = id;
         this.name = name;
         this.userIds = userIds;
+        this.lastMessageTime = lastMessageTime;
     }
 
     public Long getId() {
@@ -40,5 +43,13 @@ public class RoomResponse {
 
     public void setUserIds(List<Long> userIds) {
         this.userIds = userIds;
+    }
+
+    public Date getLastMessageTime() {
+        return lastMessageTime;
+    }
+
+    public void setLastMessageTime(Date lastMessageTime) {
+        this.lastMessageTime = lastMessageTime;
     }
 }

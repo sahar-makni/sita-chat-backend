@@ -1,6 +1,9 @@
 package com.site.tech.entity;
 
+
 import javax.persistence.*;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 
 @Entity(name = "room")
@@ -59,4 +62,13 @@ public class Room {
     public void setRoomMessages(List<Message> roomMessages) {
         this.roomMessages = roomMessages;
     }
+
+    public Date getLastMessageTime() {
+        return roomMessages
+                .stream()
+                .map(Message::getSendDate)
+                .max(Date::compareTo)
+                .orElse(null);
+    }
+
 }
