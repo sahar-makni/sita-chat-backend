@@ -39,7 +39,7 @@ the following users where created
 
 | user             | password |
 |------------------|----------|
-| sahar@gmail.com  | 123      | 
+| sahar@gmail.com  | sahar    | 
 | jules@gmail.com  | 123      | 
 | marie@gmail.com  | 123      |
 | pierre@gmail.com | 123      |
