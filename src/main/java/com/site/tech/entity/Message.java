@@ -1,8 +1,6 @@
 package com.site.tech.entity;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
-import java.time.Instant;
 import java.util.Date;
 
 @Entity(name = "message")
@@ -23,6 +21,18 @@ public class Message {
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date sendDate;
+
+
+    public Message() {
+    }
+
+    public Message(Long id, Room room, User sender, String text, Date sendDate) {
+        this.id = id;
+        this.room = room;
+        this.sender = sender;
+        this.text = text;
+        this.sendDate = sendDate;
+    }
 
     public Long getId() {
         return id;

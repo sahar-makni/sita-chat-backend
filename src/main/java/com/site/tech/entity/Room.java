@@ -2,7 +2,7 @@ package com.site.tech.entity;
 
 
 import javax.persistence.*;
-import java.util.Comparator;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -19,7 +19,7 @@ public class Room {
     private List<User> users;
 
     @OneToMany(mappedBy = "room")
-    private List<Message> roomMessages;
+    private List<Message> roomMessages = new ArrayList<>();
 
     public Room() {
     }
