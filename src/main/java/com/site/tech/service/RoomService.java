@@ -2,6 +2,7 @@ package com.site.tech.service;
 
 import com.site.tech.entity.Room;
 import com.site.tech.entity.User;
+import com.site.tech.exception.BusinessException;
 import com.site.tech.repository.RoomRepository;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +25,7 @@ public class RoomService {
     }
 
     public Room getRoomById(Long roomId) {
-        return roomRepository.findById(roomId).orElseThrow(()-> new RuntimeException("404 NOT FOUND - Room not found"));
+        return roomRepository.findById(roomId).orElseThrow(()-> new BusinessException("404 NOT FOUND - Room not found"));
 
 
     }

@@ -4,6 +4,7 @@ import at.favre.lib.crypto.bcrypt.BCrypt;
 import com.site.tech.entity.User;
 import com.site.tech.enumeration.LanguageCode;
 import com.site.tech.enumeration.ThemeCode;
+import com.site.tech.exception.BusinessException;
 import com.site.tech.mapper.UserMapper;
 import com.site.tech.repository.UserRepository;
 import com.site.tech.wrapper.request.ChangePasswordRequest;
@@ -38,16 +39,16 @@ public class UserService {
 
     public User trySignIn(SignInRequest signInRequest) {
         Optional<User> optionalUser = userRepository.findByEmail(signInRequest.getEmail());
-        User user = optionalUser.orElseThrow(() -> new RuntimeException("user not found"));
+        User user = optionalUser.orElseThrow(() -> new BusinessException("user not found"));
         BCrypt.Result result = BCrypt.verifyer().verify(signInRequest.getPassword().toCharArray(), user.getPassword().toCharArray());
         if (!result.verified) {
-            throw new RuntimeException("user or password are incorrect");
+            throw new BusinessException("user or password are incorrect");
         }
         return user;
     }
 
     public User getUserById(Long id) {
-        return userRepository.findById(id).orElseThrow(() -> new RuntimeException("404 NOT FOUND: User Not Found :'("));
+        return userRepository.findById(id).orElseThrow(() -> new BusinessException("404 NOT FOUND: User Not Found :'("));
     }
 
     public User patchUserById(Long id, PatchUserRequest patchUserRequest) {
@@ -74,7 +75,7 @@ public class UserService {
         User user = getUserById(userId);
         BCrypt.Result result = BCrypt.verifyer().verify(changePasswordRequest.getOldPassword().toCharArray(), user.getPassword().toCharArray());
         if (!result.verified) {
-            throw new RuntimeException("400 BAD REQUEST: wrong old password");
+            throw new BusinessException("400 BAD REQUEST: wrong old password");
         }
         String hashedPassword = BCrypt.withDefaults().hashToString(10, changePasswordRequest.getNewPassword().toCharArray());
         user.setPassword(hashedPassword);
