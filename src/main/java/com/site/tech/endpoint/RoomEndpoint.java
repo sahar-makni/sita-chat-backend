@@ -18,10 +18,11 @@ public class RoomEndpoint {
 
     private final RoomService roomService;
     private final AuthService authService;
-
-    public RoomEndpoint(RoomService roomService, AuthService authService) {
+    private final RoomMapper roomMapper;
+    public RoomEndpoint(RoomService roomService, AuthService authService, RoomMapper roomMapper) {
         this.roomService = roomService;
         this.authService = authService;
+        this.roomMapper = roomMapper;
     }
 
     @GET
@@ -30,7 +31,7 @@ public class RoomEndpoint {
     public Response getUserRooms(@HeaderParam("access-token") String accessToken) {
         Long userId = authService.getUserIdFromAccessToken(accessToken);
         List<Room> rooms = roomService.getUserRooms(userId);
-        List<RoomResponse> userRoomsResponse = RoomMapper.INSTANCE.entityToResponse(rooms);
+        List<RoomResponse> userRoomsResponse = roomMapper.entityToResponse(rooms);
         return Response.status(Response.Status.OK).entity(userRoomsResponse).build();
     }
 }

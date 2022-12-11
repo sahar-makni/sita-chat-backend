@@ -2,16 +2,15 @@ package com.site.tech.mapper;
 
 
 import com.site.tech.entity.User;
-import com.site.tech.wrapper.response.SignInResponse;
 import com.site.tech.wrapper.request.UserRequest;
+import com.site.tech.wrapper.response.SignInResponse;
 import com.site.tech.wrapper.response.UserResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.factory.Mappers;
+import org.mapstruct.MappingConstants;
 
-@Mapper
+@Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public interface UserMapper {
-    UserMapper INSTANCE = Mappers.getMapper(UserMapper.class);
 
     User requestToEntity(UserRequest dto);
 
@@ -20,7 +19,6 @@ public interface UserMapper {
     default Long entityToId(User user) {
         return user.getId();
     }
-
 
 
     // FIXME : this is not a good idea to use the id as access token alternative.

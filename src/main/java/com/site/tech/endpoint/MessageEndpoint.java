@@ -21,9 +21,12 @@ public class MessageEndpoint {
 
     private final MessageService messageService;
     private final AuthService authService;
-    public MessageEndpoint(MessageService messageService, AuthService authService) {
+    private final MessageMapper messageMapper;
+
+    public MessageEndpoint(MessageService messageService, AuthService authService, MessageMapper messageMapper) {
         this.messageService = messageService;
         this.authService = authService;
+        this.messageMapper = messageMapper;
     }
 
     @GET
@@ -35,7 +38,7 @@ public class MessageEndpoint {
         // TODO : Paginate this WS
         Long userId = authService.getUserIdFromAccessToken(accessToken);
         List<Message> messages = messageService.getRoomMessages(userId, roomId);
-        List<MessageResponse> messageResponses = MessageMapper.INSTANCE.entityToResponse(messages);
+        List<MessageResponse> messageResponses = messageMapper.entityToResponse(messages);
         return Response.status(Response.Status.OK).entity(messageResponses).build();
     }
 
@@ -43,10 +46,10 @@ public class MessageEndpoint {
     @Produces("application/json")
     @Transactional
     public Response appendMessage(
-             @HeaderParam("access-token") String accessToken,
+            @HeaderParam("access-token") String accessToken,
             @PathParam("roomId") Long roomId,
             @Valid @RequestBody AppendMessageRequest appendMessageRequest
-    ){
+    ) {
         Long userId = authService.getUserIdFromAccessToken(accessToken);
         messageService.appendMessage(userId, roomId, appendMessageRequest);
         return Response.status(Response.Status.CREATED).build();

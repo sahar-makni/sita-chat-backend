@@ -36,12 +36,4 @@ public class UserRequest {
     public void setPassword(String password) {
         this.password = password;
     }
-
-    @Override
-    public String toString() {
-        return "UserRequestWrapper{" +
-                "email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                '}';
-    }
 }

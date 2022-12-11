@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.validation.Valid;
-import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -20,17 +19,18 @@ import javax.ws.rs.core.Response;
 public class SignInEndpoint {
 
     private final UserService userService;
+    private final UserMapper userMapper;
 
-    public SignInEndpoint(UserService userService) {
+    public SignInEndpoint(UserService userService, UserMapper userMapper) {
         this.userService = userService;
+        this.userMapper = userMapper;
     }
 
     @POST
-    @Consumes("application/json")
     @Produces("application/json")
     public Response signIn(@Valid @RequestBody SignInRequest signInRequest) {
         User user = userService.trySignIn(signInRequest);
-        SignInResponse signInResponse = UserMapper.INSTANCE.entityToSignInResponse(user);
+        SignInResponse signInResponse = userMapper.entityToSignInResponse(user);
         return Response.status(Response.Status.OK).entity( signInResponse).build();
     }
 

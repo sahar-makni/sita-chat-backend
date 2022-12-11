@@ -106,20 +106,6 @@ public class User {
         this.rooms = rooms;
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", language=" + language +
-                ", theme=" + theme +
-                ", messagesCount=" + messagesCount +
-                ", roomsCount=" + roomsCount +
-                ", rooms=" + rooms +
-                '}';
-    }
-
     public List<Message> getRoomMessages() {
         return roomMessages;
     }

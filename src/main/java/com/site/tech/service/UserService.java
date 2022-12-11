@@ -11,8 +11,8 @@ import com.site.tech.wrapper.request.ChangePasswordRequest;
 import com.site.tech.wrapper.request.PatchUserRequest;
 import com.site.tech.wrapper.request.SignInRequest;
 import com.site.tech.wrapper.request.UserRequest;
-import io.micrometer.core.instrument.util.StringUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
 
 import java.util.Optional;
 
@@ -20,13 +20,15 @@ import java.util.Optional;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final UserMapper userMapper;
 
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, UserMapper userMapper) {
         this.userRepository = userRepository;
+        this.userMapper = userMapper;
     }
 
     public User createUser(UserRequest userRequest) {
-        User user = UserMapper.INSTANCE.requestToEntity(userRequest);
+        User user = userMapper.requestToEntity(userRequest);
         String hashedPassword = BCrypt.withDefaults().hashToString(10, user.getPassword().toCharArray());
         user.setPassword(hashedPassword);
         // set default theme and language
@@ -53,7 +55,7 @@ public class UserService {
 
     public User patchUserById(Long id, PatchUserRequest patchUserRequest) {
         User user = getUserById(id);
-        if (StringUtils.isNotBlank(patchUserRequest.getEmail())) {
+        if (!ObjectUtils.isEmpty(patchUserRequest.getEmail()) && !patchUserRequest.getEmail().trim().isEmpty()) {
             user.setEmail(patchUserRequest.getEmail());
         }
         if (patchUserRequest.getLanguage() != null) {
@@ -61,12 +63,6 @@ public class UserService {
         }
         if (patchUserRequest.getTheme() != null) {
             user.setTheme(patchUserRequest.getTheme());
-        }
-        if (patchUserRequest.getRoomsCount() != null) {
-            user.setRoomsCount(patchUserRequest.getRoomsCount());
-        }
-        if (patchUserRequest.getMessagesCount() != null) {
-            user.setMessagesCount(patchUserRequest.getMessagesCount());
         }
         return userRepository.save(user);
     }
