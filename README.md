@@ -3,7 +3,7 @@
 
 ## using docker for MariaDB:
 
-during the project dev, I setup MariaDB using docker:
+during the project dev, I set up MariaDB using docker:
 
 ### Create container:
 
@@ -30,7 +30,7 @@ GRANT ALL privileges ON `sita`.* TO 'sita'@'%' IDENTIFIED BY 'sita';
 FLUSH PRIVILEGES;
 ```
 
-# Importing Data to MariaDB
+## Importing Data to MariaDB
 
 to explore/use the app immediately, execute the SQL in `db_dump/data_base_sita.sql`.
 
@@ -45,6 +45,11 @@ the following users where created
 | pierre@gmail.com | 123      |
 
 
-# Postman collection 
+## Postman collection 
 a postman collection is provided containing all EndPoints in this repo
 find it in `postman/sita.postman_collection.json` `postman/sita.postman_environment.json`
+
+## known issues
+- using 'userId' as 'access token'
+- test coverage is very limited due to time constraints
+- lack of an exception handler to handle error codes such as 400, 404, 403...
